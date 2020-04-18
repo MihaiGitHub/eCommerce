@@ -3,9 +3,9 @@ const express = require('express')
 // invoke Express router
 const router = express.Router()
 
+const { userMain } = require('../controllers/user')
+
 // routes
-router.get('/api', (req, res) => {
-    res.send('Hello from node')
-})
+router.get('/', userMain)
 
 module.exports = router
