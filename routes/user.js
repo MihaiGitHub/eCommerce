@@ -3,9 +3,9 @@ const express = require('express')
 // invoke Express router
 const router = express.Router()
 
-const { userMain } = require('../controllers/user')
+const { signup } = require('../controllers/user')
 
 // routes
-router.get('/', userMain)
+router.post('/signup', signup)
 
 module.exports = router
