@@ -50,6 +50,10 @@ userSchema.virtual('password')
     });
 
 userSchema.methods = {
+    authenticate: function(plainText) {
+        // return true if the encrypted password matched the one in the db
+        return this.encryptPassword(plainText) === this.hashed_password;
+    },
     encryptPassword: function(password){
         if(!password) return '';
         try {

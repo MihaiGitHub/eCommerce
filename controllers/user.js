@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const jwt = require('jsonwebtoken') // to generate signed token
+const expressJwt = require('express-jwt') // for authorization check
 const { errorHandler } = require('../helpers/dbErrorHandler')
 
 exports.signup = (req, res) => {
@@ -19,4 +21,37 @@ exports.signup = (req, res) => {
             user
         });
     })
+}
+
+exports.signin = (req, res) => {
+    // find the user based on email
+    const { email, password } = req.body;
+
+    User.findOne({
+        email
+    }, (err, user) => {
+        if(err || !user){
+            return res.status(400).json({
+                err: "User with that email does not exist. Please signup"
+            });
+        }
+
+        // if user is found make sure email and password match
+        // encrypt password coming from front end and compare to the password in the db
+        if(!user.authenticate(password)){
+            return res.status(401).json({
+                error: 'Email and password dont match'
+            });
+        }
+
+        // once authenticated, generate a signed token using the user id and JWT_SECRET
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
+        // add token into a cookie with a t and add expiry date
+        res.cookie('t', token, { expire: new Date() + 9999 });
+
+        // return response with user and token to frontend client
+        const { _id, name, email, role } = user;
+        return res.json({ token, user: { _id, email, name, role }});
+    });
 }
