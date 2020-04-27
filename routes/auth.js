@@ -3,8 +3,8 @@ const express = require('express');
 // invoke Express router
 const router = express.Router();
 
-const { signup, signin, signout, requireSignin } = require('../controllers/user');
-const { userSignupValidator } = require('../validator/index');
+const { signup, signin, signout, requireSignin } = require('../controllers/auth');
+const { userSignupValidator } = require('../validator');
 
 // routes
 // use userSignupValidator as middleware for this route
