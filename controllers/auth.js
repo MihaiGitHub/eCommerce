@@ -68,6 +68,7 @@ exports.requireSignin = expressJwt({
     userProperty: 'auth' // adding auth as user property
 });
 
+// middleware to check if user is authenticated
 exports.isAuth = (req, res, next) => {
     // user variable to check req.profile && req.auth if true
     let user = req.profile && req.auth && req.profile._id == req.auth._id;
