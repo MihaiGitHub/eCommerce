@@ -5,6 +5,29 @@ const fs = require('fs');
 const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
+// middleware for adding product to request
+exports.productById = (req, res, next, id) => {
+    Product.findById(id).exec((err, product) => {
+        if(err || !product){
+            return res.status(400).json({
+                error: 'Product not found'
+            });
+        }
+
+        // make product available in the request object
+        req.product = product;
+        next();
+    });
+};
+
+// return product to frontend
+exports.read = (req, res) => {
+    // don't send the photo for performance reasons
+    req.product.photo = undefined;
+
+    return res.json(req.product);
+};
+
 // create new product
 exports.create = (req, res) => {
     // create new form, get all form data
@@ -54,5 +77,19 @@ exports.create = (req, res) => {
 
             res.json(result);
         });
+    });
+};
+
+exports.remove = (req, res) => {
+    let product = req.product;
+
+    product.remove((err, deletedProduct) => {
+        if(err){
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+
+        res.json({ message: 'Product deleted successfully!' });
     });
 };
