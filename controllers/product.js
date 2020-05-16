@@ -170,6 +170,29 @@ exports.list = (req, res) => {
                 });
             }
 
-            res.send(data);
+            res.json(data);
         })
-}
+};
+
+// find products based on the req product category
+// other products that have the same category will be returned
+exports.listRelated = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+    // find all products in that category except for the product itself, to show as related products
+    // $ne - not included
+    Product.find({ _id: { $ne: req.product }, category: req.product.category })
+        .limit(limit)
+        .populate('category', '_id name') // pull _id and name from category document
+        .exec((err, products) => {
+            if(err){
+                return res.status(400).json({
+                    error: 'Products not found'
+                });
+            }
+
+            console.log(products)
+
+            res.json(products);
+        });
+};
