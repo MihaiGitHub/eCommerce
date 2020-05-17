@@ -191,8 +191,18 @@ exports.listRelated = (req, res) => {
                 });
             }
 
-            console.log(products)
-
             res.json(products);
         });
+};
+
+exports.listCategories = (req, res) => {
+    Product.distinct("category", {}, (err, categories) => {
+        if(err){
+            return res.status(400).json({
+                error: 'Categories not found'
+            });
+        }
+
+        res.json(categories);
+    });
 };
