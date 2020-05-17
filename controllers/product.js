@@ -259,3 +259,16 @@ exports.listBySearch = (req, res) => {
             });
         });
 };
+
+// middleware to add photo to response
+exports.photo = (req, res, next) => {
+    // product is made available in request due to productById method
+    if(req.product.photo.data){
+        // send photo content type to front end to download photo
+        res.set('Content-Type', req.product.photo.contentType);
+        
+        return res.send(req.product.photo.data);
+    }
+
+    next();
+}

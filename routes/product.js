@@ -10,7 +10,8 @@ const {
     list, 
     listRelated, 
     listCategories,
-    listBySearch
+    listBySearch,
+    photo
 } = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
@@ -30,5 +31,6 @@ router.get('/products', list);
 router.get('/products/related/:productId', listRelated);
 router.get('/products/categories', listCategories);
 router.post('/products/by/search', listBySearch);
+router.get('/product/photo/:productId', photo);
 
 module.exports = router;
