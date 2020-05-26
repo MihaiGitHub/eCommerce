@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { API } from '../config';
+import { signup } from '../auth';
 
 const Signup = () => {
     const [ values, setValues ] = useState({
@@ -21,23 +21,7 @@ const Signup = () => {
         setValues({ ...values, error: false, [name]: event.target.value });
     }
 
-    const signup = user => {
-        // returns a promise; make promise available using return fetch so can use signup.then
-        return fetch(`${API}/signup`, {
-            method: 'POST',
-            headers: { // backend will respond with json data so need to accept it
-                Accept: 'application/json',
-                "Content-Type": "application/json"
-            }, // send as a json string
-            body: JSON.stringify(user)
-        })
-        .then(response => { console.log('response ', response)
-            return response.json();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+
 
     const clickSubmit = (event) => {
         event.preventDefault();
