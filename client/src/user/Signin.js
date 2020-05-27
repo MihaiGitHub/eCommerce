@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { signin } from '../auth';
+import { signin, authenticate } from '../auth';
 
 const Signin = () => {
     const [ values, setValues ] = useState({
@@ -29,15 +29,19 @@ const Signin = () => {
         // can use .then because signin returns a promise
         signin({ email, password })
         .then(data => {
-            console.log('data ', data)
             if(data.err){
                 setValues({ ...values, error: data.err, loading: false });
             } else {
                 // redirect user to dashboard
-                setValues({
-                    ...values,
-                    redirectToReferrer: true
-                });
+               authenticate(
+                   data, 
+                   () => {
+                        setValues({
+                            ...values,
+                            redirectToReferrer: true
+                        })
+                   }
+               );
             }
         });
     }
@@ -91,8 +95,8 @@ const Signin = () => {
 
     return (
         <Layout 
-            title="Signup" 
-            description="Signup to Node React E-commerce App"
+            title="Signin" 
+            description="Signin to Node React E-commerce App"
             className="container col-md-8 offset-md-2"
         >
             {showLoading()}
