@@ -40,7 +40,7 @@ exports.signin = (req, res) => {
         // encrypt password coming from front end and compare to the password in the db
         if(!user.authenticate(password)){
             return res.status(401).json({
-                error: 'Email and password dont match'
+                err: 'Email and password dont match'
             });
         }
 
