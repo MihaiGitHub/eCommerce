@@ -18,7 +18,7 @@ const Menu = ({ history }) => ( // ( - don't need return statement if using para
                 <Link className="nav-link" to="/" style={isActive(history, '/')}>Home</Link>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to="/dashboard" style={isActive(history, '/dashboard')}>Dashboard</Link>
+                <Link className="nav-link" to="/user/dashboard" style={isActive(history, '/user/dashboard')}>Dashboard</Link>
             </li>
             {!isAuthenticated() && (
                 <Fragment>
