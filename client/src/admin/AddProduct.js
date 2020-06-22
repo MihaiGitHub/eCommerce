@@ -6,7 +6,6 @@ import { createProduct } from './apiAdmin';
 
 const AddProduct = () => {
 
-    const { user, token } = isAuthenticated();
     const [ values, setValues ] = useState({
         name: '',
         description: '',
@@ -56,8 +55,30 @@ const AddProduct = () => {
         setValues({ ...values, [name]: value });
     }
 
-    const clickSubmit = (event) => {
+    const { user, token } = isAuthenticated();
 
+    const clickSubmit = (event) => {
+        event.preventDefault();
+
+        setValues({ ...values, error: '', loading: true });
+
+        createProduct(user._id, token, formData)
+        .then(data => {
+            if(data.error){
+                setValues({ ...values, error: data.error });
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    loading: false,
+                    createdProduct: data.name
+                })
+            }
+        })
     }
 
     // photo field accepts everything that starts with image/*
@@ -88,7 +109,8 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted">Category</label>
                     <select onChange={handleChange('category')} className="form-control">
-                        <option value="23123">Python</option>
+                        <option value="5edd9e7e1f4fbc0988fe6114">Node</option>
+                        <option value="5edd9e7e1f4fbc0988fe6114">Python</option>
                     </select>
             </div>
 
