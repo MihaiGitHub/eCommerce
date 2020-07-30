@@ -33,8 +33,28 @@ const Shop = () => {
 
         // create category or price array inside filters object
         newFilters.filters[filterBy] = filters;
+
+        if(filterBy = "price"){
+            let priceValues = handlePrice(filters);
+            newFilters.filters[filterBy] = priceValues;
+        }
+
         setMyFilters(newFilters);
-    }
+    };
+
+    const handlePrice = value => {
+        const data = prices;
+        let array = [];
+
+        for(let key in data){
+            // find the correct price range
+            if(data[key]._id === parseInt(value)){
+                array = data[key].array;
+            }
+        }
+
+        return array;
+    };
     
     return (
         <Layout title="Shop Page" description="Search and find books of your choice" className="container-fluid">
