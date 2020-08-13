@@ -20,3 +20,25 @@ export const getCategories = () => {
     })
     .catch(err => console.log(err));
 }
+
+export const getFilteredProducts = (skip, limit, filters = {}) => {
+    const data = {
+        limit, skip, filters
+    }
+    
+    // returns a promise; make promise available using return fetch so can use signup.then
+    return fetch(`${API}/products/by/search`, {
+        method: 'POST',
+        headers: { // backend will respond with json data so need to accept it
+            Accept: 'application/json',
+            "Content-Type": "application/json"
+        }, // send as a json string
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
