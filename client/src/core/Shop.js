@@ -14,7 +14,7 @@ const Shop = () => {
     const [ error, setError ] = useState(false);
     const [ limit, setLimit ] = useState(6);
     const [ skip, setSkip ] = useState(0);
-    const [ filteredResults, setFilteredResults ] = useState(0);
+    const [ filteredResults, setFilteredResults ] = useState([]);
 
     // load categories and set form data
     const init = () => {
@@ -32,11 +32,12 @@ const Shop = () => {
             if(data.error){
                 setError(data.error);
             } else {
-                setFilteredResults(data);
+                setFilteredResults(data.data);
             }
         })
     };
 
+    // method runs when component mounts and anytime values changes
     useEffect(() => {
         init();
         loadFilteredResults(skip, limit, myFilters.filters)
@@ -94,7 +95,10 @@ const Shop = () => {
                 </div>
 
                 <div className="col-8">
-                    {JSON.stringify(filteredResults)}
+                    <h2 className="mb-4">Products</h2>
+                    {filteredResults.map((product, index) => (
+                            <Card key={index} product={product} />
+                    ))}
                 </div>
             </div>
         </Layout>
