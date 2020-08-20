@@ -27,9 +27,46 @@ const Search = () => {
         loadCategories();
     }, []);
 
+    const searchSubmit = () => {
+        //
+    }
+
+    const handleChange = () => {
+        //
+    }
+
+    const searchForm = () => (
+        <form onSubmit={searchSubmit}>
+            <span className="input-group-text">
+                <div className="input-group input-group-lg">
+                    <div className="input-group-prepend">
+                        <select className="btn mr-2" onChange={handleChange("category")}>
+                            <option value="All">Pick Category</option>
+                            {categories.map((category, index) => (
+                                <option key={index} value={category}>{category.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <input 
+                        onChange={handleChange('search')} 
+                        type="search" 
+                        className="form-control" 
+                        placeholder="Search by name" 
+                    />
+                </div>
+                <div className="btn input-group-append" style={{ border: 'none' }}>
+                        <button className="input-group-text">Search</button>
+                </div>
+            </span>
+        </form>
+    );
+
     return (
-        <div>
-            <h2>Search Bar {JSON.stringify(categories)}</h2>
+        <div className="row">
+            <div className="container mb-3">
+                {searchForm()}
+            </div>
         </div>
     );
 };
