@@ -1,4 +1,5 @@
 import { API } from '../config';
+import queryString from 'query-string';
 
 export const getProducts = sortBy => {
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
@@ -41,4 +42,17 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     .catch(err => {
         console.log(err);
     })
+}
+
+export const list = params => {
+    // Proper way to pass a query string to back-end in GET request
+    const query = queryString.stringify(params);
+
+    return fetch(`${API}/products?${query}`, {
+        method: "GET"
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
 }
