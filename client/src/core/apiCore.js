@@ -48,7 +48,7 @@ export const list = params => {
     // Proper way to pass a query string to back-end in GET request
     const query = queryString.stringify(params);
 
-    return fetch(`${API}/products?${query}`, {
+    return fetch(`${API}/products/search?${query}`, {
         method: "GET"
     })
     .then(response => {

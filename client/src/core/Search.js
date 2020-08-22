@@ -50,6 +50,16 @@ const Search = () => {
         setData({ ...data, [name]: event.target.value, searched: false });
     }
 
+    const searchedProducts = (results = []) => {
+        return (
+            <div className="row">
+                {results.map((product, index) => (
+                    <Card key={index} product={product} />
+                ))}
+            </div>
+        );
+    }
+
     const searchForm = () => (
         <form onSubmit={searchSubmit}>
             <span className="input-group-text">
@@ -58,7 +68,7 @@ const Search = () => {
                         <select className="btn mr-2" onChange={handleChange("category")}>
                             <option value="All">Pick Category</option>
                             {categories.map((category, index) => (
-                                <option key={index} value={category}>{category.name}</option>
+                                <option key={index} value={category._id}>{category.name}</option>
                             ))}
                         </select>
                     </div>
@@ -81,7 +91,9 @@ const Search = () => {
         <div className="row">
             <div className="container mb-3">
                 {searchForm()}
-                {JSON.stringify(results)}
+            </div>
+            <div className="container-fluid mb-3">
+                {searchedProducts(results)}
             </div>
         </div>
     );
