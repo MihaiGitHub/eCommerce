@@ -7,7 +7,9 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 // middleware for adding product to request
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).exec((err, product) => {
+    Product.findById(id)
+        .populate("category") // pull from category table also
+        .exec((err, product) => {
         if(err || !product){
             return res.status(400).json({
                 error: 'Product not found'
