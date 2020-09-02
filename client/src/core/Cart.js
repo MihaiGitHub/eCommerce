@@ -17,7 +17,12 @@ const Cart = () => {
                 <h2>Your cart has {`${items.length}`}</h2>
                 <hr/>
                 {items.map((product, index) => (
-                    <Card key={index} product={product} showAddToCartButton={false} />
+                    <Card 
+                        key={index} 
+                        product={product}
+                        showAddToCartButton={false}
+                        cartUpdate={true}
+                    />
                 ))}
             </div>
         );
