@@ -5,11 +5,13 @@ import { getCart } from './cartHelpers';
 import Card from './Card';
 
 const Cart = () => {
+    const [run, setRun] = useState(false);
     const [ items, setItems ] = useState([]);
 
+    // when items in the cart change, run useEffect to update cart
     useEffect(() => {
         setItems(getCart())
-    }, []);
+    }, [run]);
 
     const showItems = () => {
         return (
@@ -22,6 +24,9 @@ const Cart = () => {
                         product={product}
                         showAddToCartButton={false}
                         cartUpdate={true}
+                        showRemoveProductButton={true}
+                        setRun={setRun}
+                        run={run}
                     />
                 ))}
             </div>
