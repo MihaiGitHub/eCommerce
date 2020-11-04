@@ -5,6 +5,7 @@ import {
   getBraintreeClientToken,
   processPayment,
 } from "./apiCore";
+import { emptyCart } from "./cartHelpers";
 import Card from "./Card";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
@@ -74,6 +75,9 @@ const Checkout = ({ products }) => {
             setData({ ...data, success: response.success });
 
             // empty cart
+            emptyCart(() => {
+              console.log("Payment success and empty cart");
+            });
 
             // create order in db
           })
