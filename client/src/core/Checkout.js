@@ -89,18 +89,18 @@ const Checkout = ({
               amount: response.transaction.amount,
               address: data.address,
             };
-            createOrder(userId, token, createOrderData);
-
-            setData({ ...data, success: response.success });
-
-            // empty cart
-            emptyCart(() => {
-              setRun(!run);
-              console.log("Payment success and empty cart");
-              setData({ loading: false });
-            });
-
-            // create order in db
+            createOrder(userId, token, createOrderData)
+              .then((response) => {
+                // empty cart
+                emptyCart(() => {
+                  setRun(!run);
+                  console.log("Payment success and empty cart");
+                  setData({ loading: false, success: true });
+                });
+              })
+              .catch((error) => {
+                setData({ loading: false });
+              });
           })
           .catch((error) => {
             console.log(error);
