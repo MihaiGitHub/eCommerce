@@ -12,6 +12,6 @@ const { create } = require("../controllers/order");
 router.param("userId", userById);
 
 // routes
-router.post("/order/create/userId", requireSignin, isAuth, create);
+router.post("/order/create/:userId", requireSignin, isAuth, create);
 
 module.exports = router;
