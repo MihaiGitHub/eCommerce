@@ -4,14 +4,22 @@ const express = require("express");
 const router = express.Router();
 
 const { requireSignin, isAuth } = require("../controllers/auth");
-const { userById } = require("../controllers/user");
+const { userById, addOrderToUserHistory } = require("../controllers/user");
 const { create } = require("../controllers/order");
+const { decreaseQuantity } = require("../controllers/product");
 
 // middleware
 // anytime there is a userId param in the route execute userById method
 router.param("userId", userById);
 
 // routes
-router.post("/order/create/:userId", requireSignin, isAuth, create);
+router.post(
+  "/order/create/:userId",
+  requireSignin,
+  isAuth,
+  addOrderToUserHistory,
+  decreaseQuantity,
+  create
+);
 
 module.exports = router;
