@@ -28,3 +28,8 @@ exports.listOrders = (req, res) => {
       res.json(orders);
     });
 };
+
+exports.getStatusValues = (req, res) => {
+  // send enum values to front end client
+  res.json(Order.schema.path("status").enumValues);
+};

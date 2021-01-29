@@ -63,3 +63,18 @@ export const listOrders = (userId, token) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getStatusValues = (userId, token) => {
+  return fetch(`${API}/order/status-values/${userId}`, {
+    method: "GET",
+    headers: {
+      // backend will respond with json data so need to accept it
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    }, // send as form data
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
