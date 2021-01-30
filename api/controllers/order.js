@@ -49,3 +49,18 @@ exports.getStatusValues = (req, res) => {
   // send enum values to front end client
   res.json(Order.schema.path("status").enumValues);
 };
+
+exports.updateOrderStatus = (req, res) => {
+  Order.update(
+    { _id: req.body.orderId },
+    { $set: { status: req.body.status } },
+    (err, order) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(order);
+    }
+  );
+};
