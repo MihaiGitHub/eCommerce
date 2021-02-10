@@ -1,4 +1,7 @@
+const { default: Orders } = require("../../client/src/admin/Orders");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 const User = require("../models/user");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
 // middleware that adds the user to the request
 exports.userById = (req, res, next, id) => {
@@ -74,4 +77,18 @@ exports.addOrderToUserHistory = (req, res, next) => {
       next();
     }
   );
+};
+
+exports.purchaseHistory = (req, res) => {
+  Orders.find({ user: req.profile._id })
+    .populate("user", "_id name")
+    .sort("-created")
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(orders);
+    });
 };
