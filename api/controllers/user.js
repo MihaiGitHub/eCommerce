@@ -1,5 +1,3 @@
-const { default: Orders } = require("../../client/src/admin/Orders");
-const { errorHandler } = require("../helpers/dbErrorHandler");
 const User = require("../models/user");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
@@ -80,15 +78,13 @@ exports.addOrderToUserHistory = (req, res, next) => {
 };
 
 exports.purchaseHistory = (req, res) => {
-  Orders.find({ user: req.profile._id })
-    .populate("user", "_id name")
-    .sort("-created")
-    .exec((err, orders) => {
-      if (err) {
-        return res.status(400).json({
-          error: errorHandler(err),
-        });
-      }
-      res.json(orders);
-    });
+  User.findById(req.profile._id).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User not found",
+      });
+    }
+
+    res.status(200).json(user.history);
+  });
 };
