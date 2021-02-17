@@ -98,7 +98,7 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
 
 // Product CRUD operations
 export const getProducts = () => {
-  return fetch(`${API}/products`, {
+  return fetch(`${API}/products?limit=undefined`, {
     method: "GET",
   })
     .then((response) => {
